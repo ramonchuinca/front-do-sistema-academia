@@ -55,3 +55,74 @@ export default {
   }
 }
 </script>
+
+
+<style scoped>
+div {
+  max-width: 450px;
+  margin: 50px auto;
+  padding: 30px 25px;
+  background-color: #f9fbfd;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  font-family: 'Segoe UI', sans-serif;
+}
+
+h2 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 25px;
+}
+
+input[type="date"],
+select {
+  width: 100%;
+  padding: 10px 12px;
+  margin: 12px 0 20px 0;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+ 
+  font-size: 16px;
+  transition: border 0.3s;
+}
+
+input[type="date"]:focus,
+select:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.15);
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  background-color: #007bff;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+p {
+  font-size: 15px;
+  margin-top: 10px;
+  text-align: center;
+}
+
+p[style*="green"] {
+  color: #28a745 !important;
+  font-weight: 600;
+}
+
+p[style*="red"] {
+  color: #dc3545 !important;
+  font-weight: 600;
+}
+</style>
