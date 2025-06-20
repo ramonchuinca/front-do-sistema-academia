@@ -56,7 +56,8 @@ export default {
     },
     async carregarAgendamentos() {
       try {
-        const res = await axios.get('http://localhost:8000/api/painel-secreto-agendamentos?token=meu-token-super-secreto-123')
+        const res = await axios.get('http://localhost:3000/api/painel-secreto-agendamentos')
+
         this.agendamentos = res.data
       } catch (err) {
         alert('Erro ao carregar os agendamentos')

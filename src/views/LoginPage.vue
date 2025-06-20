@@ -1,3 +1,4 @@
+
 <template>
   <div>
     <h2>Login</h2>
@@ -11,7 +12,17 @@
 </template>
 
 <script>
-import axios from 'axios'
+// import axios from 'axios'
+// Antes
+// import axios from 'axios'
+
+// Depois
+import api from '@/services/api'
+
+// Exemplo de uso:
+await api.post('/login', payload)
+await api.get('/vagas-restantes?data=2025-06-20')
+
 
 export default {
   data() {
@@ -24,11 +35,12 @@ export default {
   methods: {
     async login() {
       try {
-        const res = await axios.post('http://localhost:8000/api/login', {
-          nome: this.nome,
-          peso: Number(this.peso),
-          altura: Number(this.altura),
-        })
+       const res = await axios.post('http://localhost:3000/api/login', {
+  nome: this.nome,
+  peso: Number(this.peso),
+  altura: Number(this.altura),
+})
+
 
         // SALVAR O USUÁRIO COMPLETO
         localStorage.setItem('usuario', JSON.stringify(res.data.usuario))
