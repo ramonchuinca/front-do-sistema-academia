@@ -87,7 +87,7 @@ export default {
 
       try {
         const res = await api.get(
-          `http://localhost:3000/api/vagas-restantes?data=${this.data}`
+          `/api/vagas-restantes?data=${this.data}`
         );
         this.vagasRestantes = res.data;
         this.horaSelecionada = null;

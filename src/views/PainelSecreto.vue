@@ -57,7 +57,7 @@ export default {
     },
     async carregarAgendamentos() {
       try {
-        const res = await api.get('http://localhost:3000/api/painel-secreto-agendamentos')
+        const res = await api.get('/painel-secreto-agendamentos')
 
         this.agendamentos = res.data
       } catch (err) {

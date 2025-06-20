@@ -34,7 +34,7 @@ export default {
   methods: {
     async login() {
       try {
-       const res = await api.post('http://localhost:3000/api/login', {
+       const res = await api.post('/login', {
   nome: this.nome,
   peso: Number(this.peso),
   altura: Number(this.altura),
