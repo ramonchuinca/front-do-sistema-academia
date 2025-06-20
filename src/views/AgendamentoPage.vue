@@ -87,7 +87,8 @@ export default {
 
       try {
         const res = await api.get(
-          `/api/vagas-restantes?data=${this.data}`
+          await api.get(`${import.meta.env.VITE_API_URL}/api/vagas-restantes?data=${this.data}`)
+
         );
         this.vagasRestantes = res.data;
         this.horaSelecionada = null;
