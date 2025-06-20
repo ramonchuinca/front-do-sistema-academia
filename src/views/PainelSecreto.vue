@@ -34,7 +34,8 @@
 </template>
 
 <script>
-import axios from 'axios'
+// import axios from 'axios'
+import api from '../api'
 
 export default {
   data() {
@@ -56,7 +57,7 @@ export default {
     },
     async carregarAgendamentos() {
       try {
-        const res = await axios.get('http://localhost:3000/api/painel-secreto-agendamentos')
+        const res = await api.get('http://localhost:3000/api/painel-secreto-agendamentos')
 
         this.agendamentos = res.data
       } catch (err) {

@@ -113,7 +113,7 @@ export default {
           hora: this.horaSelecionada,
           usuario_id: usuario._id,
         };
-        const res = await axios.post(
+        const res = await api.post(
           "http://localhost:3000/api/agendar",
           payload
         );

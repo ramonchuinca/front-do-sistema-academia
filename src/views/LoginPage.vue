@@ -42,6 +42,7 @@ export default {
 
 
         // SALVAR O USUÁRIO COMPLETO
+        console.log(res.data.usuario)
         localStorage.setItem('usuario', JSON.stringify(res.data.usuario))
 
         this.$router.push('/agendamento')
