@@ -17,11 +17,10 @@
 // import axios from 'axios'
 
 // Depois
-import api from '@/services/api'
+import api from '../api'
 
 // Exemplo de uso:
-await api.post('/login', payload)
-await api.get('/vagas-restantes?data=2025-06-20')
+
 
 
 export default {
@@ -35,7 +34,7 @@ export default {
   methods: {
     async login() {
       try {
-       const res = await axios.post('http://localhost:3000/api/login', {
+       const res = await api.post('http://localhost:3000/api/login', {
   nome: this.nome,
   peso: Number(this.peso),
   altura: Number(this.altura),

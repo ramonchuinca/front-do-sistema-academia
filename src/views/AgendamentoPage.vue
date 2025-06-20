@@ -62,11 +62,10 @@
 // import axios from 'axios'
 
 // Depois
-import api from '@/services/api'
+import api from '../api'
 
 // Exemplo de uso:
-await api.post('/login', payload)
-await api.get('/vagas-restantes?data=2025-06-20')
+
 
 
 export default {
@@ -87,7 +86,7 @@ export default {
       }
 
       try {
-        const res = await axios.get(
+        const res = await api.get(
           `http://localhost:3000/api/vagas-restantes?data=${this.data}`
         );
         this.vagasRestantes = res.data;
