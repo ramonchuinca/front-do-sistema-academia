@@ -36,14 +36,15 @@ export default {
     };
   },
 
-  methods: {
-    async login() {
-      try {
-        const res = await api.post("/login", {
-          nome: this.nome,
-          peso: this.peso,
-          altura: this.altura,
-        });
+ methods: {
+  async login() {
+    try {
+      const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/login`, {
+        email: this.email,
+        senha: this.senha,
+      })
+      // sucesso
+    
 
         localStorage.setItem("usuario", JSON.stringify(res.data.usuario))
 
