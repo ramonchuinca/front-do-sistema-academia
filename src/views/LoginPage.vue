@@ -42,7 +42,7 @@ data() {
   methods: {
     async login() {
       try {
-        const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/login`, {
+        const response = await api.post(`${import.meta.env.VITE_API_BASE_URL}/login`, {
           email: this.email,
           senha: this.senha
         });
