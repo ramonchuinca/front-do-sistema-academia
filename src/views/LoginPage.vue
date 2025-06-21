@@ -1,64 +1,62 @@
-
 <template>
   <div>
     <h2>Login</h2>
     <form @submit.prevent="login">
       <input v-model="nome" placeholder="Nome" required />
-      <input v-model="peso" placeholder="Peso" required type="number" step="any" />
-      <input v-model="altura" placeholder="Altura" required type="number" step="any" />
+      <input
+        v-model="peso"
+        placeholder="Peso"
+        required
+        type="number"
+        step="any"
+      />
+      <input
+        v-model="altura"
+        placeholder="Altura"
+        required
+        type="number"
+        step="any"
+      />
       <button type="submit">Entrar</button>
     </form>
   </div>
 </template>
 
 <script>
-// import axios from 'axios'
-// Antes
-// import axios from 'axios'
-
-// Depois
-import api from '../api'
-
-// Exemplo de uso:
-
-
+import api from "../api";
 
 export default {
   data() {
     return {
-      nome: '',
-      peso: '',
-      altura: ''
-    }
+      email: "",
+      senha: "",
+      nome: "",
+      peso: "",
+      altura: "",
+    };
   },
+
   methods: {
     async login() {
       try {
-       const res = await api.post('/login', {
-  nome: this.nome,
-  peso: Number(this.peso),
-  altura: Number(this.altura),
-})
+        const res = await api.post("/login", {
+          nome: this.nome,
+          peso: this.peso,
+          altura: this.altura,
+        });
 
+        localStorage.setItem("usuario", JSON.stringify(res.data.usuario))
 
-        // SALVAR O USUÁRIO COMPLETO
-        console.log(res.data.usuario)
-        localStorage.setItem('usuario', JSON.stringify(res.data.usuario))
-
-        this.$router.push('/agendamento')
+        alert("Login realizado com sucesso!");
+        this.$router.push("/agendamento"); // <-- Adicione isso
       } catch (error) {
-        console.error('Erro ao logar:', error)
-        alert('Erro ao logar, verifique os dados.')
+        console.error("Erro ao logar:", error);
+        alert("Erro ao logar, verifique os dados");
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>
-
-
-
-
-
 
 <style scoped>
 div {
@@ -68,7 +66,7 @@ div {
   background-color: #f7f9fc;
   border-radius: 10px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 h2 {
