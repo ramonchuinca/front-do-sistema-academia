@@ -25,38 +25,34 @@
 <script>
 import api from "../api";
 
+import axios from 'axios';
+
 export default {
-  data() {
-    return {
-      email: "",
-      senha: "",
-      nome: "",
-      peso: "",
-      altura: "",
-    };
-  },
+  name: 'LoginPage',
+data() {
+  return {
+    nome: '',
+    peso: '',
+    altura: '',
+    email: '',
+    senha: ''
+  };
+},
 
- methods: {
-  async login() {
-    try {
-      const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/login`, {
-        email: this.email,
-        senha: this.senha,
-      })
-      // sucesso
-    
-
-        localStorage.setItem("usuario", JSON.stringify(res.data.usuario))
-
-        alert("Login realizado com sucesso!");
-        this.$router.push("/agendamento"); // <-- Adicione isso
+  methods: {
+    async login() {
+      try {
+        const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/login`, {
+          email: this.email,
+          senha: this.senha
+        });
+        console.log('Login feito com sucesso:', response.data);
       } catch (error) {
-        console.error("Erro ao logar:", error);
-        alert("Erro ao logar, verifique os dados");
+        console.error('Erro ao logar:', error);
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>
 
 <style scoped>
