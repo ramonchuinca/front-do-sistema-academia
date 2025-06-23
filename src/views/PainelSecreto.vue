@@ -9,6 +9,7 @@
           <th>Telefone</th>
           <th>Data</th>
           <th>Hora</th>
+           <th>Ações</th>
         </tr>
       </thead>
       <tbody>
@@ -17,6 +18,9 @@
           <td>{{ ag.usuario_id?.telefone || '-' }}</td>
           <td>{{ formatarData(ag.data) }}</td>
           <td>{{ ag.hora }}</td>
+           <td>
+            <button @click="deletarAgendamento(ag._id)">Excluir</button>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -65,7 +69,5 @@ th, td {
   border: 1px solid #ddd;
   padding: 10px;
 }
-th {
-  background-color: #f0f0f0;
-}
+
 </style>
