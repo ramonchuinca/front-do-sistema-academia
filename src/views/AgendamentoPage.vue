@@ -55,18 +55,9 @@
   </div>
 </template>
 
+
 <script>
-// import axios from "axios";
-
-// Antes
-// import axios from 'axios'
-
-// Depois
 import api from '../api'
-
-// Exemplo de uso:
-
-
 
 export default {
   data() {
@@ -78,75 +69,75 @@ export default {
     };
   },
   methods: {
-  async carregarVagasRestantes() {
-  if (!this.data) {
-    this.vagasRestantes = {};
-    this.horaSelecionada = null;
-    return;
-  }
+    async carregarVagasRestantes() {
+      if (!this.data) {
+        this.vagasRestantes = {};
+        this.horaSelecionada = null;
+        return;
+      }
 
-  try {
-    const res = await api.get(`/vagas-restantes?data=${this.data}`);
-    this.vagasRestantes = res.data;
-    this.horaSelecionada = null;
-  } catch (error) {
-    console.error("Erro ao carregar vagas restantes:", error);
-    alert("Erro ao carregar vagas.");
-  }
-},
+      try {
+        const res = await api.get(`/vagas-restantes?data=${this.data}`);
+        this.vagasRestantes = res.data;
+        this.horaSelecionada = null;
+      } catch (error) {
+        console.error("Erro ao carregar vagas restantes:", error);
+        alert("Erro ao carregar vagas.");
+      }
+    },
 
     selecionarHorario(horario) {
       if (this.vagasRestantes[horario] > 0) {
         this.horaSelecionada = horario;
       }
     },
-async agendar() {
-  if (!this.horaSelecionada) {
-    alert("Selecione um horário disponível");
-    return;
-  }
 
-  if (!this.data) {
-    alert("Selecione uma data.");
-    return;
-  }
+    // ✅ Método corrigido
+    async agendar() {
+      if (!this.horaSelecionada) {
+        alert("Selecione um horário disponível");
+        return;
+      }
 
-  // Validação para bloquear sábados e domingos
-  const diaSemana = new Date(this.data).getDay();
-  if (diaSemana === 0 || diaSemana === 6) {
-    alert("Não é permitido agendar aos sábados ou domingos.");
-    return;
-  }
+      if (!this.data) {
+        alert("Selecione uma data.");
+        return;
+      }
 
-  const usuarioJSON = localStorage.getItem("usuario");
-  if (!usuarioJSON) {
-    alert("Usuário não encontrado. Faça login novamente.");
-    return;
-  }
+      // Corrigido: checa dia da semana com segurança
+      const [ano, mes, dia] = this.data.split('-').map(Number);
+      const dataLocal = new Date(ano, mes - 1, dia);
+      const diaSemana = dataLocal.getDay(); // 0 = domingo, 6 = sábado
 
-  const usuario = JSON.parse(usuarioJSON);
+      if (diaSemana === 0 || diaSemana === 6) {
+        alert("Não é permitido agendar aos sábados ou domingos.");
+        return;
+      }
 
-  try {
-    const payload = {
-      data: this.data,
-      hora: this.horaSelecionada,
-      usuario_id: usuario._id,
-    };
-    const res = await api.post("/agendar", payload);
-    alert(res.data.mensagem);
-    this.carregarVagasRestantes(); // atualiza vagas depois do agendamento
+      const usuarioJSON = localStorage.getItem("usuario");
+      if (!usuarioJSON) {
+        alert("Usuário não encontrado. Faça login novamente.");
+        return;
+      }
 
-    // Redireciona para login após agendar
-    this.$router.push('/login');
+      const usuario = JSON.parse(usuarioJSON);
 
-  } catch (error) {
-    console.error("Erro ao agendar:", error);
-    alert(error.response?.data?.erro || "Erro ao agendar");
-  }
-}
-
-
-
+      try {
+        const payload = {
+          data: this.data,
+          hora: this.horaSelecionada,
+          usuario_id: usuario._id,
+        };
+        const res = await api.post("/agendar", payload);
+        alert(res.data.mensagem);
+        this.carregarVagasRestantes();
+        this.$router.push("/login");
+      } catch (error) {
+        console.error("Erro ao agendar:", error);
+        alert(error.response?.data?.erro || "Erro ao agendar");
+      }
+    }
   },
 };
 </script>
+

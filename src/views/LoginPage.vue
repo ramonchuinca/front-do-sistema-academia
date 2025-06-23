@@ -3,56 +3,55 @@
     <h2>Login</h2>
     <form @submit.prevent="login">
       <input v-model="nome" placeholder="Nome" required />
-      <input
-        v-model="peso"
-        placeholder="Peso"
-        required
-        type="number"
-        step="any"
-      />
-      <input
-        v-model="altura"
-        placeholder="Altura"
-        required
-        type="number"
-        step="any"
-      />
+      <input v-model="peso" placeholder="Peso" required type="number" step="any" />
+      <input v-model="altura" placeholder="Altura" required type="number" step="any" />
       <button type="submit">Entrar</button>
     </form>
   </div>
 </template>
 
 <script>
-import api from "../api";
-
-import axios from 'axios';
+import api from "../api"; // certifique-se que aponta para seu axios configurado
+import { useRouter } from "vue-router";
 
 export default {
-  name: 'LoginPage',
-data() {
-  return {
-    nome: '',
-    peso: '',
-    altura: '',
-    email: '',
-    senha: ''
-  };
-},
-
+  name: "LoginPage",
+  data() {
+    return {
+      nome: "",
+      peso: "",
+      altura: "",
+    };
+  },
+  setup() {
+    const router = useRouter();
+    return { router };
+  },
   methods: {
     async login() {
       try {
         const response = await api.post(`${import.meta.env.VITE_API_BASE_URL}/login`, {
-          email: this.email,
-          senha: this.senha
+          nome: this.nome,
+          peso: this.peso,
+          altura: this.altura,
         });
-        console.log('Login feito com sucesso:', response.data);
+
+        if (response.data.usuario) {
+          localStorage.setItem("usuario", JSON.stringify(response.data.usuario));
+
+          alert("Login feito com sucesso!");
+
+          this.router.push("/agendamento");
+        } else {
+          alert("Usuário não encontrado");
+        }
       } catch (error) {
-        console.error('Erro ao logar:', error);
+        console.error("Erro ao logar:", error);
+        alert("Erro ao fazer login. Verifique os dados ou tente novamente.");
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style scoped>
@@ -73,6 +72,7 @@ h2 {
 }
 
 input[type="date"],
+input,
 select {
   width: 100%;
   padding: 10px 12px;
@@ -80,7 +80,7 @@ select {
   border: 1px solid #ccc;
   border-radius: 6px;
   font-size: 16px;
-  background-color: white;
+
 }
 
 button {
