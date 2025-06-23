@@ -5,6 +5,7 @@
       <input v-model="nome" placeholder="Nome" required />
       <input v-model="peso" placeholder="Peso" required type="number" step="any" />
       <input v-model="altura" placeholder="Altura" required type="number" step="any" />
+      <input v-model="telefone" placeholder="Telefone" required /> <!-- ✅ NOVO CAMPO -->
       <button type="submit">Entrar</button>
     </form>
   </div>
@@ -21,6 +22,7 @@ export default {
       nome: "",
       peso: "",
       altura: "",
+      telefone: "", // ✅ NOVO CAMPO NO DATA
     };
   },
   setup() {
@@ -34,13 +36,12 @@ export default {
           nome: this.nome,
           peso: this.peso,
           altura: this.altura,
+          telefone: this.telefone, // ✅ NOVO CAMPO ENVIADO
         });
 
         if (response.data.usuario) {
           localStorage.setItem("usuario", JSON.stringify(response.data.usuario));
-
           alert("Login feito com sucesso!");
-
           this.router.push("/agendamento");
         } else {
           alert("Usuário não encontrado");
@@ -80,7 +81,6 @@ select {
   border: 1px solid #ccc;
   border-radius: 6px;
   font-size: 16px;
-
 }
 
 button {
