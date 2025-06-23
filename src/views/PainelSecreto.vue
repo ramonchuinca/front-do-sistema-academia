@@ -2,7 +2,7 @@
   <div>
     <h2>Agendamentos do Mês</h2>
 
-  <table v-if="agendamentos.length">
+ <table v-if="agendamentos.length">
   <thead>
     <tr>
       <th>Nome</th>
@@ -11,21 +11,18 @@
       <th>Telefone</th>
       <th>Data</th>
       <th>Hora</th>
-      <th>Ações</th>
     </tr>
   </thead>
   <tbody>
     <tr v-for="ag in agendamentos" :key="ag._id">
-      <td>{{ ag.usuario_id?.nome || '-' }}</td>
-      <td>{{ ag.usuario_id?.peso || '-' }}</td>
-      <td>{{ ag.usuario_id?.altura || '-' }}</td>
-      <td>{{ ag.usuario_id?.telefone || '-' }}</td>
-      <td>{{ formatarData(ag.data) }}</td>
-      <td>{{ ag.hora }}</td>
-      <td>
-        <button @click="deletarAgendamento(ag._id)">Excluir</button>
-      </td>
-    </tr>
+  <td>{{ ag.usuario_id?.nome || '---' }}</td>
+  <td>{{ ag.usuario_id?.peso || '---' }}</td>
+  <td>{{ ag.usuario_id?.altura || '---' }}</td>
+  <td>{{ ag.usuario_id?.telefone || '---' }}</td>
+  <td>{{ formatarData(ag.data) }}</td>
+  <td>{{ ag.hora }}</td>
+</tr>
+
   </tbody>
 </table>
 
@@ -42,20 +39,29 @@ export default {
   name: "PainelSecreto",
   data() {
     return {
-      agendamentos: []
+      agendamentos: [],
+      data: '',
+      hora: '',
+      usuario: {
+        _id: '' // ⚠️ deve ser preenchido pelo login ou outro meio
+      }
     };
   },
   methods: {
     formatarData(data) {
-  if (!data) return '-';
-  return new Date(data).toLocaleDateString('pt-BR');
-},
-
-  
+      if (!data) return '';
+      return new Date(data).toLocaleDateString('pt-BR', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric'
+      });
+    },
 
     async carregarAgendamentos() {
       try {
+
         const response = await api.get(`/painel-secreto-agendamentos`);
+        
         console.log("🔍 Dados recebidos:", response.data);
         this.agendamentos = response.data;
       } catch (error) {
@@ -74,6 +80,27 @@ export default {
         console.error("Erro ao excluir agendamento:", error);
         alert("Erro ao excluir. Verifique o console.");
       }
+    },
+
+    async criarAgendamentoSimples() {
+      try {
+        if (!this.usuario._id || !this.data || !this.hora) {
+          alert("Preencha todos os campos.");
+          return;
+        }
+
+        await axios.post('/api/agendar-simples', {
+          usuario_id: this.usuario._id,
+          data: this.data,
+          hora: this.hora
+        });
+
+        alert("✅ Agendamento criado com sucesso!");
+        this.carregarAgendamentos();
+      } catch (error) {
+        console.error("Erro ao criar agendamento:", error);
+        alert("Erro ao criar agendamento. Verifique o console.");
+      }
     }
   },
   mounted() {
@@ -81,6 +108,7 @@ export default {
   }
 };
 </script>
+
 
 <style scoped>
 table {

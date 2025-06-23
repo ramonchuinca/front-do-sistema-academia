@@ -121,7 +121,7 @@ export default {
       }
 
       const usuario = JSON.parse(usuarioJSON);
-
+      console.log('efetuado com sucesso',usuario)
       try {
         const payload = {
           data: this.data,
