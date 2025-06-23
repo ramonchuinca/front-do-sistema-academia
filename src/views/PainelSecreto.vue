@@ -2,32 +2,33 @@
   <div>
     <h2>Agendamentos do Mês</h2>
 
-    <table v-if="agendamentos.length">
-      <thead>
-        <tr>
-          <th>Nome</th>
-          <th>Peso</th>
-          <th>Altura</th>
-          <th>Telefone</th>
-          <th>Data</th>
-          <th>Hora</th>
-          <th>Ações</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="ag in agendamentos" :key="ag._id">
-          <td>{{ ag.usuario_id?.nome || '-' }}</td>
-          <td>{{ ag.usuario_id?.peso || '-' }}</td>
-          <td>{{ ag.usuario_id?.altura || '-' }}</td>
-          <td>{{ ag.usuario_id?.telefone || '-' }}</td>
-          <td>{{ formatarData(ag.data) }}</td>
-          <td>{{ ag.hora }}</td>
-          <td>
-            <button @click="deletarAgendamento(ag._id)">Excluir</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+  <table v-if="agendamentos.length">
+  <thead>
+    <tr>
+      <th>Nome</th>
+      <th>Peso</th>
+      <th>Altura</th>
+      <th>Telefone</th>
+      <th>Data</th>
+      <th>Hora</th>
+      <th>Ações</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr v-for="ag in agendamentos" :key="ag._id">
+      <td>{{ ag.usuario_id?.nome || '-' }}</td>
+      <td>{{ ag.usuario_id?.peso || '-' }}</td>
+      <td>{{ ag.usuario_id?.altura || '-' }}</td>
+      <td>{{ ag.usuario_id?.telefone || '-' }}</td>
+      <td>{{ formatarData(ag.data) }}</td>
+      <td>{{ ag.hora }}</td>
+      <td>
+        <button @click="deletarAgendamento(ag._id)">Excluir</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
 
     <p v-else>Nenhum agendamento encontrado neste mês.</p>
   </div>
@@ -35,6 +36,7 @@
 
 <script>
 import axios from "axios";
+import api from "../api";
 
 export default {
   name: "PainelSecreto",
@@ -44,17 +46,16 @@ export default {
     };
   },
   methods: {
-    formatarData(dataStr) {
-      const data = new Date(dataStr);
-      const dia = String(data.getDate()).padStart(2, '0');
-      const mes = String(data.getMonth() + 1).padStart(2, '0');
-      const ano = data.getFullYear();
-      return `${dia}/${mes}/${ano}`;
-    },
+    formatarData(data) {
+  if (!data) return '-';
+  return new Date(data).toLocaleDateString('pt-BR');
+},
+
+  
 
     async carregarAgendamentos() {
       try {
-        const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/painel-secreto-agendamentos`);
+        const response = await api.get(`/painel-secreto-agendamentos`);
         console.log("🔍 Dados recebidos:", response.data);
         this.agendamentos = response.data;
       } catch (error) {
