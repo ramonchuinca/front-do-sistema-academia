@@ -131,7 +131,7 @@ export default {
         const res = await api.post("/agendar", payload);
         alert(res.data.mensagem);
         this.carregarVagasRestantes();
-        this.$router.push("/login");
+        this.$router.push("/#");
       } catch (error) {
         console.error("Erro ao agendar:", error);
         alert(error.response?.data?.erro || "Erro ao agendar");

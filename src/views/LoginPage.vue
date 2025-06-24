@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>Login</h2>
+    <h2>FAÇA AQUI SEU AGENDAMENTO</h2>
     <form @submit.prevent="login">
       <input v-model="nome" placeholder="Nome" required />
       <input v-model="peso" placeholder="Peso" required type="number" step="any" />

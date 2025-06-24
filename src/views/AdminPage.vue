@@ -1,49 +1,29 @@
 <template>
-  <div>
-    <h2>Painel de Admin</h2>
-    <table v-if="agendamentos.length">
-      <thead>
-        <tr>
-          <th>Nome</th>
-          <th>Peso</th>
-          <th>Altura</th>
-          <th>Data</th>
-          <th>Hora</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="ag in agendamentos" :key="ag.id">
-          <td>{{ ag.usuario.nome }}</td>
-          <td>{{ ag.usuario.peso }}</td>
-          <td>{{ ag.usuario.altura }}</td>
-          <td>{{ ag.data }}</td>
-          <td>{{ ag.hora }}</td>
-        </tr>
-      </tbody>
-    </table>
-    <p v-else>Nenhum agendamento.</p>
+  <div class="admin-container">
+    <h1>Bem-vindo ao Painel de Administração</h1>
+    <p>Use o botão abaixo para iniciar o agendamento.</p>
+    <button @click="$router.push('/login')">Iniciar Agendamento</button>
   </div>
 </template>
 
 <script>
-import axios from 'axios'
-
 export default {
-  data() {
-    return { agendamentos: [] }
-  },
-  async created() {
-    try {
-     const res = await axios.get('http://localhost:8000/api/admin/agendamentos', {
-  headers: {
-    Authorization: `Bearer ${localStorage.getItem('token')}`
-  }
-})
-      this.agendamentos = res.data
-    } catch (err) {
-      alert('Acesso negado ou erro ao carregar agendamentos')
-      this.$router.push('/login')
-    }
-  }
+  name: 'AdminPage'
 }
 </script>
+
+<style scoped>
+.admin-container {
+  text-align: center;
+  padding: 50px;
+}
+button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+</style>
