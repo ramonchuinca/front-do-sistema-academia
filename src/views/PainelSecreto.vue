@@ -91,6 +91,11 @@ export default {
 .painel {
   padding: 2rem;
   font-family: Arial, sans-serif;
+  color:aliceblue;
+   background-color: rgba(0, 0, 0, 0.6); /* preto com 60% de opacidade */
+  border-radius: 8px;
+  overflow: hidden;
+  text-align: center;
 }
 input {
   margin-right: 0.5rem;
@@ -101,10 +106,20 @@ button {
   cursor: pointer;
 }
 table {
+  color: aliceblue;
   border-collapse: collapse;
   width: 100%;
   margin-top: 1rem;
+
+  background-color: rgba(0, 0, 0, 0.6); /* preto com 60% de opacidade */
+  border-radius: 8px;
+  overflow: hidden;
+
+  /* Opcional: efeito blur do fundo (funciona em navegadores modernos) */
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
 }
+
 th {
   background-color: green;
   font-weight: bold;
