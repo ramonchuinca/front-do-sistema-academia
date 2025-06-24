@@ -147,6 +147,11 @@ export default {
   font-family: Arial, sans-serif;
 }
 
+h2{
+  color: #fff;
+  font-weight: bold;
+}
+
 .input-data {
   padding: 10px;
   width: 100%;
@@ -203,6 +208,7 @@ button {
 .texto-verde {
   color: green;
   font-weight: 600;
+  background-color: rgba(0, 0, 0, 0.6);
 }
 
 .texto-vermelho {
@@ -215,7 +221,7 @@ button {
   padding: 0;
   margin-bottom: 20px;
   font-weight: 600;
-  color: #444;
+  color: #fff;
 }
 
 .btn-agendar {

@@ -97,6 +97,11 @@ export default {
   border-radius: 8px;
   overflow: hidden;
   text-align: center;
+  font-weight: bold;
+}
+
+h2{
+  font-weight: bold;
 }
 
 input {
@@ -104,6 +109,7 @@ input {
   padding: 0.4rem;
   max-width: 100%;
   box-sizing: border-box;
+  border-radius: 6px;
 }
 
 button {
@@ -111,6 +117,9 @@ button {
   cursor: pointer;
   font-size: 1rem;
   min-width: 80px;
+  border-radius:10px ;
+  background-color: blue;
+  color: aliceblue;
 }
 
 /* Tabela */
