@@ -60,7 +60,7 @@ div {
   max-width: 400px;
   margin: 40px auto;
   padding: 30px;
-  background-color: #f7f9fc;
+ background-color: rgba(0, 0, 0, 0.6);
   border-radius: 10px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
@@ -69,7 +69,8 @@ div {
 h2 {
   text-align: center;
   margin-bottom: 20px;
-  color: #333;
+  color: #fff;
+  font-weight: bolder;
 }
 
 input[type="date"],

@@ -1,45 +1,39 @@
 <template>
-  <div>
+  <div class="agendamento-container">
     <h2>Agendar Horário</h2>
 
-    <input type="date" v-model="data" @change="carregarVagasRestantes" />
+    <input
+      type="date"
+      v-model="data"
+      @change="carregarVagasRestantes"
+      class="input-data"
+    />
 
-    <div v-if="data">
+    <div v-if="data" class="lista-horarios">
       <div
         v-for="horario in horarios"
         :key="horario"
-        style="margin-bottom: 8px"
+        class="horario-item"
       >
         <button
           :disabled="vagasRestantes[horario] <= 0"
-          :style="{
-            backgroundColor:
-              horaSelecionada === horario
-                ? '#28a745'
-                : vagasRestantes[horario] > 0
-                ? '#007bff'
-                : '#ccc',
-            color: 'white',
-            padding: '10px 15px',
-            border: horaSelecionada === horario ? '2px solid #155724' : 'none',
-            borderRadius: '6px',
-            cursor: vagasRestantes[horario] > 0 ? 'pointer' : 'not-allowed',
-            marginRight: '10px',
-            transition: 'all 0.3s ease',
+          :class="{
+            'btn-selecionado': horaSelecionada === horario,
+            'btn-disponivel': vagasRestantes[horario] > 0 && horaSelecionada !== horario,
+            'btn-indisponivel': vagasRestantes[horario] <= 0,
           }"
           @click="selecionarHorario(horario)"
         >
           {{ horario }}
         </button>
-        <span v-if="vagasRestantes[horario] > 0" style="color: green">
+        <span v-if="vagasRestantes[horario] > 0" class="texto-verde">
           {{ vagasRestantes[horario] }} vaga(s) restante(s)
         </span>
-        <span v-else style="color: red"> Indisponível </span>
+        <span v-else class="texto-vermelho">Indisponível</span>
       </div>
     </div>
 
-    <!-- Novo bloco: lista com resumo das vagas -->
-    <ul v-if="Object.keys(vagasRestantes).length" style="margin-top: 20px">
+    <ul v-if="Object.keys(vagasRestantes).length" class="resumo-vagas">
       <li v-for="(vagas, hora) in vagasRestantes" :key="hora">
         {{ hora }} - {{ vagas }} vaga(s)
       </li>
@@ -48,12 +42,13 @@
     <button
       :disabled="!horaSelecionada"
       @click="agendar"
-      style="margin-top: 20px; width: 100%; padding: 12px; font-weight: bold"
+      class="btn-agendar"
     >
       Agendar {{ horaSelecionada || "" }}
     </button>
   </div>
 </template>
+
 
 
 <script>
@@ -140,4 +135,110 @@ export default {
   },
 };
 </script>
+
+
+<style scoped>
+
+.agendamento-container {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+  font-family: Arial, sans-serif;
+}
+
+.input-data {
+  padding: 10px;
+  width: 100%;
+  margin-bottom: 20px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+}
+
+.lista-horarios {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.horario-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  justify-content: center;
+}
+
+button {
+  padding: 10px 15px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  color: white;
+  font-weight: 600;
+  min-width: 100px;
+  transition: background-color 0.3s ease;
+}
+
+.btn-selecionado {
+  background-color: #28a745;
+  border: 2px solid #155724;
+}
+
+.btn-disponivel {
+  background-color: #007bff;
+}
+
+.btn-disponivel:hover {
+  background-color: #0056b3;
+}
+
+.btn-indisponivel {
+  background-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
+}
+
+.texto-verde {
+  color: green;
+  font-weight: 600;
+}
+
+.texto-vermelho {
+  color: red;
+  font-weight: 600;
+}
+
+.resumo-vagas {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 20px;
+  font-weight: 600;
+  color: #444;
+}
+
+.btn-agendar {
+  width: 100%;
+  padding: 12px;
+  font-weight: bold;
+  font-size: 16px;
+  background-color: #007bff;
+  border-radius: 8px;
+  border: none;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-agendar:disabled {
+  background-color: #999;
+  cursor: not-allowed;
+}
+
+.btn-agendar:not(:disabled):hover {
+  background-color: #0056b3;
+}
+
+</style>
 
