@@ -1,123 +1,121 @@
 <template>
-  <div>
-    <h2>Agendamentos do Mês</h2>
+  <div class="painel">
+    <h2>Painel Secreto</h2>
 
- <table v-if="agendamentos.length">
-  <thead>
-    <tr>
-      <th>Nome</th>
-      <th>Peso</th>
-      <th>Altura</th>
-      <th>Telefone</th>
-      <th>Data</th>
-      <th>Hora</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr v-for="ag in agendamentos" :key="ag._id">
-  <td>{{ ag.usuario_id?.nome || '---' }}</td>
-  <td>{{ ag.usuario_id?.peso || '---' }}</td>
-  <td>{{ ag.usuario_id?.altura || '---' }}</td>
-  <td>{{ ag.usuario_id?.telefone || '---' }}</td>
-  <td>{{ formatarData(ag.data) }}</td>
-  <td>{{ ag.hora }}</td>
-</tr>
+    <div v-if="!autenticado">
+      <p>Digite a senha para acessar:</p>
+      <input v-model="senhaDigitada" type="password" placeholder="Senha" />
+      <button @click="fazerLogin">Entrar</button>
+      <p v-if="erro" class="erro">{{ erro }}</p>
+    </div>
 
-  </tbody>
-</table>
-
-
-    <p v-else>Nenhum agendamento encontrado neste mês.</p>
+    <div v-else>
+      <h3>Agendamentos do Mês</h3>
+      <p v-if="erro" class="erro">{{ erro }}</p>
+      <table v-if="agendamentos.length">
+        <thead>
+          <tr>
+            <th scope="col">Nome</th>
+            <th scope="col">Peso</th>
+            <th scope="col">Altura</th>
+            <th scope="col">Telefone</th>
+            <th scope="col">Data</th>
+            <th scope="col">Hora</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(ag, index) in agendamentos" :key="index">
+            <td>{{ ag.nome || '---' }}</td>
+            <td>{{ ag.peso || '---' }}</td>
+            <td>{{ ag.altura || '---' }}</td>
+            <td>{{ ag.telefone || '---' }}</td>
+            <td>{{ formatarData(ag.data) }}</td>
+            <td>{{ ag.hora }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <p v-else>Nenhum agendamento encontrado neste mês.</p>
+    </div>
   </div>
 </template>
 
 <script>
-import axios from "axios";
-import api from "../api";
+import axios from 'axios';
 
 export default {
   name: "PainelSecreto",
   data() {
     return {
+      senhaDigitada: '',
+      senhaCorreta: '123456',
+      autenticado: false,
       agendamentos: [],
-      data: '',
-      hora: '',
-      usuario: {
-        _id: '' // ⚠️ deve ser preenchido pelo login ou outro meio
-      }
+      erro: ''
     };
   },
   methods: {
-    formatarData(data) {
-      if (!data) return '';
-      return new Date(data).toLocaleDateString('pt-BR', {
+    async fazerLogin() {
+      if (this.senhaDigitada === this.senhaCorreta) {
+        this.autenticado = true;
+        this.erro = '';
+        await this.carregarAgendamentos();
+      } else {
+        this.erro = 'Senha incorreta.';
+      }
+    },
+   async carregarAgendamentos() {
+  try {
+    const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/painel-secreto-agendamentos`);
+    console.log('🔍 Agendamentos recebidos:', response.data); // ADICIONE AQUI
+    this.agendamentos = response.data;
+    this.erro = '';
+  } catch (error) {
+    console.error("Erro ao buscar agendamentos:", error);
+    this.erro = 'Erro ao carregar agendamentos.';
+  }
+},
+
+    formatarData(dataISO) {
+      if (!dataISO) return '';
+      return new Date(dataISO).toLocaleDateString('pt-BR', {
         day: '2-digit',
         month: '2-digit',
         year: 'numeric'
       });
-    },
-
-    async carregarAgendamentos() {
-      try {
-
-        const response = await api.get(`/painel-secreto-agendamentos`);
-        
-        console.log("🔍 Dados recebidos:", response.data);
-        this.agendamentos = response.data;
-      } catch (error) {
-        console.error("Erro ao buscar agendamentos:", error);
-      }
-    },
-
-    async deletarAgendamento(id) {
-      if (!confirm("Deseja excluir este agendamento?")) return;
-
-      try {
-        await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/agendamento/${id}`);
-        alert("Agendamento excluído!");
-        this.carregarAgendamentos();
-      } catch (error) {
-        console.error("Erro ao excluir agendamento:", error);
-        alert("Erro ao excluir. Verifique o console.");
-      }
-    },
-
-    async criarAgendamentoSimples() {
-      try {
-        if (!this.usuario._id || !this.data || !this.hora) {
-          alert("Preencha todos os campos.");
-          return;
-        }
-
-        await axios.post('/api/agendar-simples', {
-          usuario_id: this.usuario._id,
-          data: this.data,
-          hora: this.hora
-        });
-
-        alert("✅ Agendamento criado com sucesso!");
-        this.carregarAgendamentos();
-      } catch (error) {
-        console.error("Erro ao criar agendamento:", error);
-        alert("Erro ao criar agendamento. Verifique o console.");
-      }
     }
-  },
-  mounted() {
-    this.carregarAgendamentos();
   }
 };
 </script>
 
-
 <style scoped>
+.painel {
+  padding: 2rem;
+  font-family: Arial, sans-serif;
+}
+input {
+  margin-right: 0.5rem;
+  padding: 0.4rem;
+}
+button {
+  padding: 0.4rem 0.8rem;
+  cursor: pointer;
+}
 table {
-  width: 100%;
   border-collapse: collapse;
-  margin-top: 20px;
+  width: 100%;
+  margin-top: 1rem;
+}
+th {
+  background-color: green;
+  font-weight: bold;
 }
 th, td {
+  padding: 0.5rem;
   border: 1px solid #ccc;
-  padding: 8px;
+  text-align: center;
+}
+.erro {
+  color: red;
+  margin-top: 10px;
 }
 </style>
