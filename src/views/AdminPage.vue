@@ -16,6 +16,7 @@ export default {
 .admin-container {
   text-align: center;
   padding: 50px;
+  width: 100%;
 }
 button {
   margin-top: 20px;
