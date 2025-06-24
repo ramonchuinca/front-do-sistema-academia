@@ -88,34 +88,42 @@ export default {
 </script>
 
 <style scoped>
+
 .painel {
   padding: 2rem;
   font-family: Arial, sans-serif;
-  color:aliceblue;
-   background-color: rgba(0, 0, 0, 0.6); /* preto com 60% de opacidade */
+  color: aliceblue;
+  background-color: rgba(0, 0, 0, 0.6);
   border-radius: 8px;
   overflow: hidden;
   text-align: center;
 }
+
 input {
   margin-right: 0.5rem;
   padding: 0.4rem;
+  max-width: 100%;
+  box-sizing: border-box;
 }
+
 button {
   padding: 0.4rem 0.8rem;
   cursor: pointer;
+  font-size: 1rem;
+  min-width: 80px;
 }
+
+/* Tabela */
 table {
   color: aliceblue;
   border-collapse: collapse;
   width: 100%;
   margin-top: 1rem;
 
-  background-color: rgba(0, 0, 0, 0.6); /* preto com 60% de opacidade */
+  background-color: rgba(0, 0, 0, 0.6);
   border-radius: 8px;
   overflow: hidden;
 
-  /* Opcional: efeito blur do fundo (funciona em navegadores modernos) */
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
 }
@@ -124,13 +132,45 @@ th {
   background-color: green;
   font-weight: bold;
 }
+
 th, td {
   padding: 0.5rem;
   border: 1px solid #ccc;
   text-align: center;
+  word-wrap: break-word; /* para evitar overflow */
 }
+
+/* Mensagem de erro */
 .erro {
   color: red;
   margin-top: 10px;
+  font-size: 0.9rem;
 }
+
+/* Media Queries para telas menores */
+@media (max-width: 600px) {
+  .painel {
+    padding: 1rem;
+  }
+
+  input {
+    margin-right: 0;
+    margin-bottom: 1rem;
+    width: 100%;
+  }
+
+  button {
+    width: 100%;
+    font-size: 1.1rem;
+  }
+
+  table, th, td {
+    font-size: 0.9rem;
+  }
+
+  th, td {
+    padding: 0.4rem 0.3rem;
+  }
+}
+
 </style>
