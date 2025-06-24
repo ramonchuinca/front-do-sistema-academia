@@ -1,6 +1,6 @@
 <template>
   <div class="admin-container">
-    <h1>Bem-vindo ao Painel de Administração</h1>
+    <h1>Bem-vindo ao Painel da Academy</h1>
     <p>Use o botão abaixo para iniciar o agendamento.</p>
     <button @click="$router.push('/login')">Iniciar Agendamento</button>
   </div>
