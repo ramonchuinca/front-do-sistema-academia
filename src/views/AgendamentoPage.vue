@@ -118,8 +118,7 @@ export default {
       vagasRestantes: {},
       horaSelecionada: null,
 
-      /* 👇 NOVOS CAMPOS */
-      agendamentoDoDia: null, // guarda o agendamento já existente
+      agendamentoDoDia: null,
       carregando: false,
     };
   },
@@ -143,7 +142,6 @@ export default {
         alert("Erro ao carregar vagas.");
       }
 
-      /* 👇 carrega (ou não) o agendamento do próprio usuário */
       await this.carregarMeuAgendamento();
     },
 
@@ -159,7 +157,7 @@ export default {
         this.carregando = true;
         const res = await api.get(
           `/meu-agendamento?data=${this.data}&usuario=${usuario._id}`
-        ); // backend devolve null ou {_id,hora}
+        );
 
         this.agendamentoDoDia = res.data;
         this.horaSelecionada = this.agendamentoDoDia?.hora || null;
@@ -180,7 +178,32 @@ export default {
     async agendar() {
       if (!this.validarAntesDeSalvar()) return;
 
-      const usuario = JSON.parse(localStorage.getItem("usuario"));
+      const usuario = JSON.parse(localStorage.getItem("usuario") || "{}");
+      if (!usuario._id) {
+        alert("Usuário não encontrado. Faça login novamente.");
+        return;
+      }
+
+      try {
+        const jaTem = await api.get("/meu-agendamento", {
+          params: { data: this.data, usuario: usuario._id },
+        });
+
+        if (jaTem.data) {
+          alert(
+            "Você já possui um agendamento nesse dia. " +
+              "Altere ou cancele o horário existente antes de criar outro."
+          );
+          this.agendamentoDoDia = jaTem.data;
+          this.horaSelecionada = jaTem.data.hora;
+          return;
+        }
+      } catch (e) {
+        console.error("Falha ao checar agendamento existente:", e);
+        alert("Erro ao validar agendamento existente. Tente novamente.");
+        return;
+      }
+
       try {
         await api.post("/agendar", {
           data: this.data,
@@ -202,6 +225,7 @@ export default {
         alert("Selecione o novo horário.");
         return;
       }
+
       try {
         await api.put(`/agendar/${this.agendamentoDoDia._id}`, {
           data: this.data,
@@ -242,6 +266,7 @@ export default {
         alert("Selecione uma data.");
         return false;
       }
+
       const [a, m, d] = this.data.split("-").map(Number);
       const dateLocal = new Date(a, m - 1, d);
       const diaSemana = dateLocal.getDay();
@@ -254,6 +279,7 @@ export default {
   },
 };
 </script>
+
 
 <style scoped>
 /* --------- LAYOUT GERAL ------------------------------------------------ */
