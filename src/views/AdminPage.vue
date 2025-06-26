@@ -25,7 +25,6 @@
           </ul>
         </div>
       </div>
-      
     </nav>
 
     <!-- Conteúdo da página -->
