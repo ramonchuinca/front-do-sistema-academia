@@ -4,8 +4,8 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
       <div class="container-fluid">
         <a class="navbar-brand" href="#">
-          <!-- <img src="/docs/5.3/assets/brand/bootstrap-logo.svg" alt="Logo" width="30" height="24" class="d-inline-block align-text-top me-2"> -->
-          Academy
+          <img src="/../my-vue-app/src/assets/policia.jpg" alt="Logo" width="30" height="30" class="d-inline-block align-text-top me-2">
+          CENTRO DE ENSINO DA POLICIA MILITAR - CE
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
           <span class="navbar-toggler-icon"></span>
